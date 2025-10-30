@@ -10,7 +10,7 @@ const UserDetails = () => {
           .catch((error) => console.error("Error fetching users:", error));
       }, [id]);
       if(!user){
-        return <p>Loading user details...</p>
+        return <div>Loading user details...</div>
       }
   return (
     <div>
