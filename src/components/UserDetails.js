@@ -3,15 +3,25 @@ import { useParams } from 'react-router-dom';
 const UserDetails = () => {
     const {id}=useParams();
     const [user,setUser]=useState(null);
-    useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-          .then((response) => response.json())
-          .then((data) => setUser(data))
-          .catch((error) => console.error("Error fetching users:", error));
-      }, [id]);
-      if(!user){
-        return <div>Loading...</div>
-      }
+   const [loading, setLoading] = useState(true); // ✅ add loading state
+
+  useEffect(() => {
+    setLoading(true); 
+    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+        setLoading(false); 
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
         <p>Name: {user.name}</p>
